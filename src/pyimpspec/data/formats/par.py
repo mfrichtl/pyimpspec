@@ -42,6 +42,7 @@ def parse_par(path: str) -> List[DataSet]:
     List[DataSet]
     """
     from pandas import DataFrame
+
     assert isinstance(path, str) and exists(path), path
     fp: IO
     with open(path, "r", encoding="latin1") as fp:
@@ -49,29 +50,35 @@ def parse_par(path: str) -> List[DataSet]:
             filter(lambda _: _ != "", map(str.lower, map(str.strip, fp.readlines())))
         )
 
-    assert len(lines) > 0, f"Failed to find any data in '{path}'"  # check for blank file
+    assert len(lines) > 0, (
+        f"Failed to find any data in '{path}'"
+    )  # check for blank file
     freq: List[float] = []
     real: List[float] = []
     imag: List[float] = []
     parse_data = False
     while lines:
-        line = lines.pop(0).split(',')
+        line = lines.pop(0).split(",")
         if parse_data:
-            if line[0].startswith('</segment'):  # end of this data segment.
+            if line[0].startswith("</segment"):  # end of this data segment.
                 parse_data = False
                 continue
-            if float(line[9]) != 0:  # found a frequency definition, assuming this is from an EIS sweep.
+            if (
+                float(line[9]) != 0
+            ):  # found a frequency definition, assuming this is from an EIS sweep.
                 try:
                     values: List[float] = list(map(float, line))
                 except ValueError:
                     break
                 freq.append(values[9])
                 real.append(values[14])
-                imag.append(values[15]) 
-        if line[0].split('=')[0] == 'definition':  # Begin of data
+                imag.append(values[15])
+        if line[0].split("=")[0] == "definition":  # Begin of data
             parse_data = True
 
-    assert len(freq) == len(real) == len(imag) > 0, f"Failed to find any impedance data in '{path}'"
+    assert len(freq) == len(real) == len(imag) > 0, (
+        f"Failed to find any impedance data in '{path}'"
+    )
     return dataframe_to_data_sets(
         DataFrame.from_dict(
             {
