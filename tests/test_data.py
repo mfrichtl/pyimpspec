@@ -761,6 +761,7 @@ class TestFormatParsers(TestCase):
 
         for data in parse_data(Path(path)):
             self.validate(data, control)
+
     def test_par(self):
         control: DataSet = get_control_data()
         paths: List[str] = get_test_files(".par")
