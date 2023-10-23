@@ -79,42 +79,6 @@ def parse_par(path: str) -> List[DataSet]:
     assert len(freq) == len(real) == len(imag) > 0, (
         f"Failed to find any impedance data in '{path}'"
     )
-    assert len(lines) > 0, (
-        f"Failed to find any impedance data in '{path}'"
-    )  # check for blank file
-    # Need to make sure we have the correct Action for the EIS experiment
-    found_eis = False
-    eis_action_no = None
-    while not found_eis:
-        line: str = lines.pop(0)
-        if line.startswith("<action"):
-            eis_action_no = str(
-                int(line[7:][:-1]) - 1
-            )  # Parstat's action segment numbering is off by one for some reason.
-        if "potentiostatic eis" in line:
-            found_eis = True
-
-    assert found_eis == True and eis_action_no is not None, (
-        f"Failed to find any impedance actions in '{path}'"
-    )  # Did not find an EIS action
-
-    freq: List[float] = []
-    real: List[float] = []
-    imag: List[float] = []
-    while lines:
-        line = lines.pop(0)
-        if line.split(",")[0] == eis_action_no:  # found the EIS data
-            try:
-                values: List[float] = list(map(float, line.split(",")))
-            except ValueError:
-                break
-            assert len(values) >= 5, (
-                f"Expected to parse at least five values from line: {line}"
-            )
-            freq.append(values[9])
-            real.append(values[14])
-            imag.append(values[15])
-    assert len(freq) == len(real) == len(imag) > 0, len(freq)
     return dataframe_to_data_sets(
         DataFrame.from_dict(
             {
