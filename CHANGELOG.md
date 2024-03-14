@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 5.1.2 (2025/03/02)
 
 - Updated the m(RQ)-fit implementation to raise exceptions in cases that would result in, e.g., negative time constants or undefined values in the DRT.
@@ -234,6 +235,8 @@
 - Changed some CLI argument names to improve consistency.
 
 
+=======
+>>>>>>> e20b664 (Merged dev-4-1-1 branch)
 # 4.1.1 (2024/03/14)
 
 - Maintenance release that updates the version requirements for dependencies.

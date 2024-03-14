@@ -3066,3 +3066,589 @@ class KramersKronigTestResult(TestCase):
                 colored_axes=True,
             ),
         )
+<<<<<<< HEAD
+=======
+
+    def test_get_series_resistance(self):
+        R: float = self.result.get_series_resistance()
+        self.assertFalse(isnan(R))
+
+    def test_get_series_capacitance(self):
+        C: float = self.result.get_series_capacitance()
+        self.assertNotEqual(isnan(C), self.arg_add_capacitance)
+
+    def test_get_series_inductance(self):
+        L: float = self.result.get_series_inductance()
+        if self.arg_test == "cnls":
+            self.assertNotEqual(isnan(L), self.arg_add_inductance)
+        else:
+            self.assertFalse(isnan(L))
+
+
+class KramersKronigComplexWithCapacitance(KramersKronigComplex):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.5662037409812818
+    cmp_num_RC: int = 16
+    cmp_pseudo_chisqr: float = 0.0009746704484412114
+
+
+class KramersKronigComplexWithInductance(KramersKronigComplex):
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKL]"
+
+
+class KramersKronigComplexWithCapacitanceInductance(KramersKronigComplex):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.5662037409812818
+    cmp_num_RC: int = 16
+    cmp_pseudo_chisqr: float = 0.0009746704484412114
+
+
+class KramersKronigComplexManual(KramersKronigComplex):
+    arg_num_RC: int = 16
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKL]"
+    cmp_num_RC: int = 16
+    cmp_mu: float = 0.4642977683437579
+    cmp_pseudo_chisqr: float = 0.001003393927007882
+
+
+class KramersKronigComplexManualWithCapacitance(KramersKronigComplexManual):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.5662037409812818
+
+
+class KramersKronigComplexManualWithInductance(KramersKronigComplexManual):
+    arg_add_inductance: bool = True
+
+
+class KramersKronigComplexManualWithCapacitanceInductance(KramersKronigComplexManual):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.5662037409812818
+
+
+# ==============================================================================
+
+
+class KramersKronigReal(KramersKronigComplex):
+    arg_test: str = "real"
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.8351972078416112
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0022502074349343235
+
+
+class KramersKronigRealWithCapacitance(KramersKronigReal):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+class KramersKronigRealWithInductance(KramersKronigReal):
+    arg_add_inductance: bool = True
+
+
+class KramersKronigRealWithCapacitanceInductance(KramersKronigReal):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+class KramersKronigRealManual(KramersKronigReal):
+    arg_test: str = "real"
+    arg_num_RC: int = 16
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.752262545112554
+    cmp_num_RC: int = 16
+    cmp_pseudo_chisqr: float = 0.0022502074349343235
+
+
+class KramersKronigRealManualWithCapacitance(KramersKronigRealManual):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKCL]"
+    cmp_pseudo_chisqr: float = 0.001269308657064358
+
+
+class KramersKronigRealManualWithInductance(KramersKronigRealManual):
+    arg_add_inductance: bool = True
+
+
+class KramersKronigRealManualWithCapacitanceInductance(KramersKronigRealManual):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKCL]"
+    cmp_pseudo_chisqr: float = 0.001269308657064358
+
+
+# ==============================================================================
+
+
+class KramersKronigImaginary(KramersKronigComplex):
+    arg_test: str = "imaginary"
+    cmp_cdc: str = "[RKKL]"
+    cmp_mu: float = 0.7634133056991227
+    cmp_num_RC: int = 2
+    cmp_pseudo_chisqr: float = 5.397326608733074
+
+
+class KramersKronigImaginaryWithCapacitance(KramersKronigImaginary):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8463746482381072
+    cmp_num_RC: int = 11
+    cmp_pseudo_chisqr: float = 0.004059147148708858
+
+
+class KramersKronigImaginaryWithInductance(KramersKronigImaginary):
+    arg_add_inductance: bool = True
+
+
+class KramersKronigImaginaryWithCapacitanceInductance(KramersKronigImaginary):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8463746482381072
+    cmp_num_RC: int = 11
+    cmp_pseudo_chisqr: float = 0.004059147148708858
+
+
+class KramersKronigImaginaryManual(KramersKronigImaginary):
+    arg_num_RC: int = 17
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.18854545209673368
+    cmp_num_RC: int = 17
+    cmp_pseudo_chisqr: float = 0.01497161839945128
+
+
+class KramersKronigImaginaryManualWithCapacitance(KramersKronigImaginaryManual):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.1863497549045704
+
+
+class KramersKronigImaginaryManualWithInductance(KramersKronigImaginaryManual):
+    arg_add_inductance: bool = True
+
+
+class KramersKronigImaginaryManualWithCapacitanceInductance(
+    KramersKronigImaginaryManual
+):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.1863497549045704
+
+
+# ==============================================================================
+
+
+class KramersKronigCNLS(KramersKronigComplex):
+    arg_test: str = "cnls"
+    cmp_cdc: str = "[RKKKKKKKKKKKKKK]"
+    cmp_mu: float = 0.8320354036592371
+    cmp_num_RC: int = 14
+    cmp_pseudo_chisqr: float = 0.0013382040618625823
+
+
+class KramersKronigCNLSWithCapacitance(KramersKronigCNLS):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "KC]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class KramersKronigCNLSWithInductance(KramersKronigCNLS):
+    arg_max_nfev: int = 5
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class KramersKronigCNLSWithCapacitanceInductance(KramersKronigCNLS):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KCL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class KramersKronigCNLSManual(KramersKronigCNLS):
+    arg_num_RC: int = 16
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKK]"
+    cmp_mu: float = 0.5273614432492131
+    cmp_num_RC: int = 16
+    cmp_pseudo_chisqr: float = 0.00147272884582866392
+
+
+class KramersKronigCNLSManualWithCapacitance(KramersKronigCNLSManual):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "KC]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class KramersKronigCNLSManualWithInductance(KramersKronigCNLSManual):
+    arg_max_nfev: int = 5
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class KramersKronigCNLSManualWithCapacitanceInductance(KramersKronigCNLSManual):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KCL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+# ==============================================================================
+
+TEST_EXPLORATORY_PLOTS: bool = True
+
+
+class ExploratoryComplex(KramersKronigComplex):
+    # kwargs
+    arg_test: str = "complex"
+    arg_num_RCs: List[int] = []
+    arg_mu_criterion: float = 0.85
+    arg_add_capacitance: bool = False
+    arg_add_inductance: bool = False
+    arg_method: str = "leastsq"
+    arg_max_nfev: int = -1
+    arg_num_procs: int = -1
+    # comparison values
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.828611766498053
+    cmp_num_RC: int = 14
+    cmp_pseudo_chisqr: float = 0.0010644917191345309
+
+    @classmethod
+    def setUpClass(cls):
+        cls.results: List[TestResult] = perform_exploratory_tests(
+            DATA,
+            test=cls.arg_test,
+            num_RCs=cls.arg_num_RCs,
+            mu_criterion=cls.arg_mu_criterion,
+            add_capacitance=cls.arg_add_capacitance,
+            add_inductance=cls.arg_add_inductance,
+            method=cls.arg_method,
+            max_nfev=cls.arg_max_nfev,
+            num_procs=cls.arg_num_procs,
+        )
+        cls.result: TestResult = cls.results[0]
+
+    def test_single_process(self):
+        results: List[TestResult] = perform_exploratory_tests(
+            DATA,
+            test=self.arg_test,
+            num_RCs=self.arg_num_RCs,
+            mu_criterion=self.arg_mu_criterion,
+            add_capacitance=self.arg_add_capacitance,
+            add_inductance=self.arg_add_inductance,
+            method=self.arg_method,
+            max_nfev=self.arg_max_nfev,
+            num_procs=1,
+        )
+        self.assertIsInstance(results, list)
+        if self.cmp_num_RC < 0:
+            return
+        self.assertTrue(all(map(lambda _: type(_) is TestResult, results)))
+        self.assertTrue(
+            results[0].calculate_score(self.arg_mu_criterion)
+            > results[1].calculate_score(self.arg_mu_criterion)
+            > results[-1].calculate_score(self.arg_mu_criterion)
+        )
+        result: TestResult = results[0]
+        self.assertEqual(self.result.circuit.to_string(), result.circuit.to_string())
+        self.assertEqual(self.result.num_RC, result.num_RC)
+        self.assertEqual(self.result.mu, result.mu)
+        self.assertEqual(self.result.pseudo_chisqr, result.pseudo_chisqr)
+        self.assertTrue(allclose(self.result.frequencies, result.frequencies))
+        self.assertTrue(allclose(self.result.impedances, result.impedances))
+        self.assertTrue(allclose(self.result.residuals, result.residuals))
+
+    def test_multi_process(self):
+        results: List[TestResult] = perform_exploratory_tests(
+            DATA,
+            test=self.arg_test,
+            num_RCs=self.arg_num_RCs,
+            mu_criterion=self.arg_mu_criterion,
+            add_capacitance=self.arg_add_capacitance,
+            add_inductance=self.arg_add_inductance,
+            method=self.arg_method,
+            max_nfev=self.arg_max_nfev,
+            num_procs=2,
+        )
+        self.assertIsInstance(results, list)
+        if self.cmp_num_RC < 0:
+            return
+        self.assertTrue(all(map(lambda _: type(_) is TestResult, results)))
+        self.assertTrue(
+            results[0].calculate_score(self.arg_mu_criterion)
+            > results[1].calculate_score(self.arg_mu_criterion)
+            > results[-1].calculate_score(self.arg_mu_criterion)
+        )
+        result: TestResult = results[0]
+        self.assertEqual(self.result.circuit.to_string(), result.circuit.to_string())
+        self.assertEqual(self.result.num_RC, result.num_RC)
+        self.assertEqual(self.result.mu, result.mu)
+        self.assertEqual(self.result.pseudo_chisqr, result.pseudo_chisqr)
+        self.assertTrue(allclose(self.result.frequencies, result.frequencies))
+        self.assertTrue(allclose(self.result.impedances, result.impedances))
+        self.assertTrue(allclose(self.result.residuals, result.residuals))
+
+    def test_matplotlib(self):
+        global TEST_EXPLORATORY_PLOTS
+        if not TEST_EXPLORATORY_PLOTS:
+            return
+        TEST_EXPLORATORY_PLOTS = False
+        check_mpl_return_values(
+            self,
+            *mpl.plot_mu_xps(
+                self.results,
+                mu_criterion=self.arg_mu_criterion,
+            ),
+        )
+        check_mpl_return_values(
+            self,
+            *mpl.plot_mu_xps(
+                self.results,
+                mu_criterion=self.arg_mu_criterion,
+                colored_axes=True,
+            ),
+        )
+        check_mpl_return_values(
+            self,
+            *mpl.plot_tests(
+                self.results,
+                data=DATA,
+                mu_criterion=self.arg_mu_criterion,
+            ),
+        )
+        check_mpl_return_values(
+            self,
+            *mpl.plot_tests(
+                self.results,
+                data=DATA,
+                mu_criterion=self.arg_mu_criterion,
+                colored_axes=True,
+            ),
+        )
+
+
+class ExploratoryReal(ExploratoryComplex):
+    arg_test: str = "real"
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0022502074349335334
+
+
+class ExploratoryRealWithCapacitance(ExploratoryReal):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+class ExploratoryRealWithInductance(ExploratoryReal):
+    arg_add_inductance: bool = True
+
+
+class ExploratoryRealWithCapacitanceInductance(ExploratoryReal):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+class ExploratoryRealManual(ExploratoryReal):
+    arg_num_RCs: List[int] = list(range(2, DATA.get_num_points()))
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+class ExploratoryRealManualWithCapacitance(ExploratoryRealManual):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+class ExploratoryRealManualWithInductance(ExploratoryRealManual):
+    arg_add_inductance: bool = True
+
+
+class ExploratoryRealManualWithCapacitanceInductance(ExploratoryRealManual):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8351972078416252
+    cmp_num_RC: int = 15
+    cmp_pseudo_chisqr: float = 0.0012584749704440204
+
+
+# ==============================================================================
+
+
+class ExploratoryImaginary(ExploratoryComplex):
+    arg_test: str = "imaginary"
+    cmp_cdc: str = "[RKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.8454783508069239
+    cmp_num_RC: int = 13
+    cmp_pseudo_chisqr: float = 0.002190045082573739
+
+
+class ExploratoryImaginaryWithCapacitance(ExploratoryImaginary):
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8463746482381072
+    cmp_num_RC: int = 11
+    cmp_pseudo_chisqr: float = 0.004059147148708858
+
+
+class ExploratoryImaginaryWithInductance(ExploratoryImaginary):
+    arg_add_inductance: bool = True
+
+
+class ExploratoryImaginaryWithCapacitanceInductance(ExploratoryImaginary):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8463746482381072
+    cmp_num_RC: int = 11
+    cmp_pseudo_chisqr: float = 0.004059147148708858
+
+
+class ExploratoryImaginaryManual(ExploratoryImaginary):
+    arg_num_RCs: List[int] = list(range(2, DATA.get_num_points()))
+    cmp_cdc: str = "[RKKKKKKKKKKKKKL]"
+    cmp_mu: float = 0.8454783508069239
+    cmp_num_RC: int = 13
+    cmp_pseudo_chisqr: float = 0.002190045082573739
+
+
+class ExploratoryImaginaryManualWithCapacitance(ExploratoryImaginaryManual):
+    arg_add_capacitance: bool = True
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8463746482381072
+    cmp_num_RC: int = 11
+    cmp_pseudo_chisqr: float = 0.004059147148708858
+
+
+class ExploratoryImaginaryManualWithInductance(ExploratoryImaginaryManual):
+    arg_add_inductance: bool = True
+
+
+class ExploratoryImaginaryManualWithCapacitanceInductance(ExploratoryImaginaryManual):
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "[RKKKKKKKKKKKCL]"
+    cmp_mu: float = 0.8463746482381072
+    cmp_num_RC: int = 11
+    cmp_pseudo_chisqr: float = 0.004059147148708858
+
+
+# ==============================================================================
+
+
+class ExploratoryCNLS(ExploratoryComplex):
+    arg_test: str = "cnls"
+    cmp_cdc: str = "[RKKKKKKKKKKKKKK]"
+    cmp_mu: float = 0.8320354036592371
+    cmp_num_RC: int = 14
+    cmp_pseudo_chisqr: float = 0.0013382191152589255
+
+
+class ExploratoryCNLSWithCapacitance(ExploratoryCNLS):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "KC]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class ExploratoryCNLSWithInductance(ExploratoryCNLS):
+    arg_max_nfev: int = 5
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class ExploratoryCNLSWithCapacitanceInductance(ExploratoryCNLS):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KCL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class ExploratoryCNLSManual(ExploratoryCNLS):
+    arg_num_RCs: List[int] = list(range(2, DATA.get_num_points()))
+    cmp_cdc: str = "[RKKKKKKKKKKKKKK]"
+    cmp_mu: float = 0.8320354036592371
+    cmp_num_RC: int = 14
+    cmp_pseudo_chisqr: float = 0.0013382191152589255
+
+
+class ExploratoryCNLSManualWithCapacitance(ExploratoryCNLSManual):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    cmp_cdc: str = "KC]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class ExploratoryCNLSManualWithInductance(ExploratoryCNLSManual):
+    arg_max_nfev: int = 5
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+
+
+class ExploratoryCNLSManualWithCapacitanceInductance(ExploratoryCNLSManual):
+    arg_max_nfev: int = 5
+    arg_add_capacitance: bool = True
+    arg_add_inductance: bool = True
+    cmp_cdc: str = "KCL]"
+    cmp_mu: float = -1.0
+    cmp_num_RC: int = -1
+    cmp_pseudo_chisqr: float = -1.0
+>>>>>>> e20b664 (Merged dev-4-1-1 branch)
