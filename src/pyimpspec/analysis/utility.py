@@ -58,7 +58,9 @@ def _interpolate(
         experimental = _cast_to_floating_array(experimental)
 
     if len(experimental) < 2:
-        raise ValueError(f"Expected an array with at least two values instead of {experimental=}")
+        raise ValueError(
+            f"Expected an array with at least two values instead of {experimental=}"
+        )
 
     if not _is_integer(num_per_decade):
         raise TypeError(f"Expected an integer instead of {num_per_decade=}")
