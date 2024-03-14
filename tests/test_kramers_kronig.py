@@ -359,10 +359,10 @@ class KramersKronigLeastSquaresFitting(TestCase):
             test=test,
         )
         self.assertEqual(A.sum(), m // 2)
-        self.assertEqual(A[0:m // 2].sum(), m // 2)
-        self.assertEqual(A[0:m // 2, 0].sum(), m // 2)
-        self.assertEqual(A[0:m // 2, 1:].sum(), 0)
-        self.assertEqual(A[m // 2:].sum(), 0)
+        self.assertEqual(A[0 : m // 2].sum(), m // 2)
+        self.assertEqual(A[0 : m // 2, 0].sum(), m // 2)
+        self.assertEqual(A[0 : m // 2, 1:].sum(), 0)
+        self.assertEqual(A[m // 2 :].sum(), 0)
 
         test = "real"
         A = pyimpspec.analysis.kramers_kronig.least_squares._initialize_A_matrix(
@@ -460,10 +460,10 @@ class KramersKronigLeastSquaresFitting(TestCase):
                     admittance=admittance,
                 )
                 self.assertNotEqual(A.sum(), 0.0)
-                self.assertEqual(A[0:m // 2, i - 1].sum(), 0)
-                self.assertEqual(A[0:m // 2, i + 1:].sum(), 0)
-                self.assertTrue((A[0:m // 2, i] == expected[:, i].real).all())
-                self.assertTrue((A[m // 2:, i] == expected[:, i].imag).all())
+                self.assertEqual(A[0 : m // 2, i - 1].sum(), 0)
+                self.assertEqual(A[0 : m // 2, i + 1 :].sum(), 0)
+                self.assertTrue((A[0 : m // 2, i] == expected[:, i].real).all())
+                self.assertTrue((A[m // 2 :, i] == expected[:, i].imag).all())
 
         test = "real"
         A = pyimpspec.analysis.kramers_kronig.least_squares._initialize_A_matrix(
@@ -500,7 +500,7 @@ class KramersKronigLeastSquaresFitting(TestCase):
                 )
                 self.assertNotEqual(A.sum(), 0.0)
                 self.assertEqual(A[:, i - 1].sum(), 0)
-                self.assertEqual(A[:, i + 1:].sum(), 0)
+                self.assertEqual(A[:, i + 1 :].sum(), 0)
                 if test == "real":
                     self.assertTrue((A[:, i] == expected[:, i].real).all())
                 elif test == "imaginary":
@@ -531,11 +531,11 @@ class KramersKronigLeastSquaresFitting(TestCase):
             )
             self.assertNotEqual(A.sum(), 0)
             self.assertTrue(
-                (A[m // 2:, n - 2] == (self.w if admittance else -1 / self.w)).all()
+                (A[m // 2 :, n - 2] == (self.w if admittance else -1 / self.w)).all()
             )
             self.assertEqual(A[: m // 2, n - 2].sum(), 0)
-            self.assertEqual(A[:, :n - 2].sum(), 0)
-            self.assertEqual(A[:, n - 1:].sum(), 0)
+            self.assertEqual(A[:, : n - 2].sum(), 0)
+            self.assertEqual(A[:, n - 1 :].sum(), 0)
 
             test = "real"
             A = pyimpspec.analysis.kramers_kronig.least_squares._initialize_A_matrix(
@@ -577,8 +577,8 @@ class KramersKronigLeastSquaresFitting(TestCase):
             self.assertTrue(
                 (A[:, n - 2] == (self.w if admittance else -1 / self.w)).all()
             )
-            self.assertEqual(A[:, :n - 2].sum(), 0)
-            self.assertEqual(A[:, n - 1:].sum(), 0)
+            self.assertEqual(A[:, : n - 2].sum(), 0)
+            self.assertEqual(A[:, n - 1 :].sum(), 0)
 
     def test_add_inductance_to_A_matrix(self):
         admittance: bool
@@ -605,10 +605,10 @@ class KramersKronigLeastSquaresFitting(TestCase):
             )
             self.assertNotEqual(A.sum(), 0)
             self.assertTrue(
-                (A[m // 2:, n - 1] == (1 / self.w) if admittance else self.w).all()
+                (A[m // 2 :, n - 1] == (1 / self.w) if admittance else self.w).all()
             )
-            self.assertEqual(A[:m // 2, n - 1].sum(), 0)
-            self.assertEqual(A[:, :n - 1].sum(), 0)
+            self.assertEqual(A[: m // 2, n - 1].sum(), 0)
+            self.assertEqual(A[:, : n - 1].sum(), 0)
 
             test = "real"
             A = pyimpspec.analysis.kramers_kronig.least_squares._initialize_A_matrix(
@@ -650,8 +650,8 @@ class KramersKronigLeastSquaresFitting(TestCase):
             self.assertTrue(
                 (A[:, n - 2] == (1 / self.w) if admittance else self.w).all()
             )
-            self.assertEqual(A[:, :n - 2].sum(), 0)
-            self.assertEqual(A[:, n - 1:].sum(), 0)
+            self.assertEqual(A[:, : n - 2].sum(), 0)
+            self.assertEqual(A[:, n - 1 :].sum(), 0)
 
     def test_generate_A_matrix(self):
         test: str
@@ -729,7 +729,7 @@ class KramersKronigLeastSquaresFitting(TestCase):
 
                 if test == "complex":
                     self.assertTrue((b[: m // 2] == X_exp.real).all())
-                    self.assertTrue((b[m // 2:] == X_exp.imag).all())
+                    self.assertTrue((b[m // 2 :] == X_exp.imag).all())
                 elif test == "real":
                     self.assertTrue((b == X_exp.real).all())
                 elif test == "imaginary":
@@ -1804,16 +1804,20 @@ class KramersKronigPerformExploratoryTests(TestCase):
             List[KramersKronigResult],
             Tuple[KramersKronigResult, Dict[int, float], int, int],
         ]
-        results = pyimpspec.analysis.kramers_kronig.perform_exploratory_kramers_kronig_tests(
-            VALID_DATA,
-            admittance=False,
+        results = (
+            pyimpspec.analysis.kramers_kronig.perform_exploratory_kramers_kronig_tests(
+                VALID_DATA,
+                admittance=False,
+            )
         )
         self.assertTrue(all(map(lambda t: t.admittance is False, results[0])))
         self.assertEqual(results[1][0].admittance, False)
 
-        results = pyimpspec.analysis.kramers_kronig.perform_exploratory_kramers_kronig_tests(
-            VALID_DATA,
-            admittance=True,
+        results = (
+            pyimpspec.analysis.kramers_kronig.perform_exploratory_kramers_kronig_tests(
+                VALID_DATA,
+                admittance=True,
+            )
         )
         self.assertTrue(all(map(lambda t: t.admittance is True, results[0])))
         self.assertEqual(results[1][0].admittance, True)
@@ -2351,7 +2355,7 @@ class KramersKronigAlgorithms(TestCase):
             self.assertTrue(
                 isclose(
                     kappa[i],
-                    _fit_osculating_circle(Z[i], Z[i+1], Z[i+2]),
+                    _fit_osculating_circle(Z[i], Z[i + 1], Z[i + 2]),
                 )
             )
 
@@ -3066,8 +3070,6 @@ class KramersKronigTestResult(TestCase):
                 colored_axes=True,
             ),
         )
-<<<<<<< HEAD
-=======
 
     def test_get_series_resistance(self):
         R: float = self.result.get_series_resistance()
@@ -3651,4 +3653,3 @@ class ExploratoryCNLSManualWithCapacitanceInductance(ExploratoryCNLSManual):
     cmp_mu: float = -1.0
     cmp_num_RC: int = -1
     cmp_pseudo_chisqr: float = -1.0
->>>>>>> e20b664 (Merged dev-4-1-1 branch)

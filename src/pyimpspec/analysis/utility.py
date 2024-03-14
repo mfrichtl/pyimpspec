@@ -58,7 +58,9 @@ def _interpolate(
         experimental = _cast_to_floating_array(experimental)
 
     if len(experimental) < 2:
-        raise ValueError(f"Expected an array with at least two values instead of {experimental=}")
+        raise ValueError(
+            f"Expected an array with at least two values instead of {experimental=}"
+        )
 
     if not _is_integer(num_per_decade):
         raise TypeError(f"Expected an integer instead of {num_per_decade=}")
@@ -201,13 +203,8 @@ def get_default_num_procs() -> int:
 
     name: str
     for name in libraries:
-<<<<<<< HEAD
         envs: List[str]
         for lib, envs in multithreaded.items():
-=======
-        env: str
-        for lib, env in multithreaded.items():
->>>>>>> e20b664 (Merged dev-4-1-1 branch)
             if lib in name:
                 num_threads: int = -1
                 for env in envs:
