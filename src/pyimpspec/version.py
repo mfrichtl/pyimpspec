@@ -17,4 +17,8 @@
 # The licenses of pyimpspec's dependencies and/or sources of portions of code are included in
 # the LICENSES folder.
 
+<<<<<<< HEAD
 PACKAGE_VERSION: str = "5.1.2"
+=======
+PACKAGE_VERSION: str = "4.1.1"
+>>>>>>> e20b664 (Merged dev-4-1-1 branch)
